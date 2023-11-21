@@ -1,4 +1,4 @@
-﻿namespace Application.Core
+﻿namespace RoadStatusApplication.Core
 {
     public class Result<T>
     {

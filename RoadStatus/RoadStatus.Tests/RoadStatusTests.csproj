@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoadStatus.Application\RoadStatus.Application.csproj" />
+    <ProjectReference Include="..\RoadStatus.Application\RoadStatusApplication.csproj" />
   </ItemGroup>
 
 </Project>

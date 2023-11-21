@@ -1,8 +1,8 @@
-﻿using Application;
-using FluentAssertions;
+﻿using FluentAssertions;
+using RoadStatusApplication;
 using Xunit;
 
-namespace RoadStatus.Tests.ServiceTests
+namespace RoadStatusTests.ServiceTests
 {
     public class RoadStatusServiceTests
     {
@@ -51,7 +51,7 @@ namespace RoadStatus.Tests.ServiceTests
         }
 
         [Fact]
-        public async void WhenGivenNoRoadID_RoadNotRecognisedReturnedWithEmpty() 
+        public async void WhenGivenNoRoadID_RoadNotRecognisedReturnedWithEmpty()
         {
             var sut = new RoadStatusService();
 

@@ -1,6 +1,6 @@
-﻿using Application.Core;
+﻿using RoadStatusApplication.Core;
 
-namespace Application
+namespace RoadStatusApplication
 {
     public class RoadStatusService : IRoadStatusService
     {
@@ -10,7 +10,7 @@ namespace Application
 
         public async Task<Result<RoadStatus>> RunAsync(string v)
         {
-            if (string.IsNullOrEmpty(v)) return 
+            if (string.IsNullOrEmpty(v)) return
                 Result<RoadStatus>.Failure("The following road is not recognised: <empty>");
 
             return v == "A2" ?

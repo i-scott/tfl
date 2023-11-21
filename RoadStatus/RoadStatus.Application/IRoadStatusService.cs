@@ -1,7 +1,7 @@
-﻿using Application.Core;
+﻿using RoadStatusApplication.Core;
 using System.Threading.Tasks;
 
-namespace Application
+namespace RoadStatusApplication
 {
     public interface IRoadStatusService
     {

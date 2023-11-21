@@ -5,9 +5,9 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadStatus", "RoadStatus\RoadStatus.csproj", "{4B98E808-75CE-45A1-8AE5-EC8A4FC29398}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadStatus.Tests", "RoadStatus.Tests\RoadStatus.Tests.csproj", "{B2D96654-AF3E-49D4-9BF5-4D478D36511B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadStatusTests", "RoadStatus.Tests\RoadStatusTests.csproj", "{B2D96654-AF3E-49D4-9BF5-4D478D36511B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadStatus.Application", "RoadStatus.Application\RoadStatus.Application.csproj", "{74EFFDB0-D61E-444B-8690-B4EFB2411125}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadStatusApplication", "RoadStatus.Application\RoadStatusApplication.csproj", "{74EFFDB0-D61E-444B-8690-B4EFB2411125}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadStatus.Provider", "RoadStatus.Provider\RoadStatus.Provider.csproj", "{B72678C1-5D13-4DF4-9840-E25BD18EEF80}"
 EndProject
