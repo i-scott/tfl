@@ -15,7 +15,6 @@ namespace RoadStatus.Tests.ServiceTests
             result.Should().Be("A2");
         }
 
-
         [Fact]
         public async void WhenGivenInvalidRoadID_RoadNotRecognisedReturned()
         {
@@ -25,5 +24,16 @@ namespace RoadStatus.Tests.ServiceTests
 
             result.Should().Be("The following road is not recognised: A2");
         }
+
+        [Fact]
+        public async void WhenGivenNoRoadID_RoadNotRecognisedReturnedWithEmpty() 
+        {
+            var sut = new RoadStatusService();
+
+            var result = await sut.RunAsync("");
+
+            result.Should().Be("The following road is not recognised: <empty>");
+        }
+
     }
 }
