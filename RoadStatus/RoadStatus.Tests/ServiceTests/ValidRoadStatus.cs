@@ -1,8 +1,9 @@
 ﻿namespace RoadStatus.Tests.ServiceTests
 {
-    public class ValidRoadStatus
+    public record ValidRoadStatus
     {
-        public string DisplayName{ get; set; }
-        public string StatusSeverity { get; set; }
+        public string DisplayName;
+        public string StatusSeverity;
+        public string StatusSeverityDescription;
     }
 }

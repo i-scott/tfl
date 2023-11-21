@@ -28,6 +28,17 @@ namespace RoadStatus.Tests.ServiceTests
         }
 
         [Fact]
+        public async void WhenGivenValidRoadID_StatusSeverityDescriptionIsReturned()
+        {
+            var sut = new RoadStatusService();
+
+            var result = await sut.RunAsync("A2");
+
+            result.IsSuccess.Should().BeTrue();
+            result.Value.StatusSeverityDescription.Should().Be("No Exceptional Delays");
+        }
+
+        [Fact]
         public async void WhenGivenInvalidRoadID_RoadNotRecognisedReturned()
         {
             var sut = new RoadStatusService();
@@ -48,6 +59,5 @@ namespace RoadStatus.Tests.ServiceTests
             result.IsSuccess!.Should().BeFalse();
             result.Error.Should().Be("The following road is not recognised: <empty>");
         }
-
     }
 }

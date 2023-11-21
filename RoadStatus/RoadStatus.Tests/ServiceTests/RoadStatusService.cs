@@ -15,7 +15,7 @@ namespace RoadStatus.Tests.ServiceTests
            
 
             return v == "A2" ? 
-                        Result<ValidRoadStatus>.Success(new ValidRoadStatus{  DisplayName = v, StatusSeverity = "Good" }) :
+                        Result<ValidRoadStatus>.Success(new ValidRoadStatus{  DisplayName = v, StatusSeverity = "Good", StatusSeverityDescription = "No Exceptional Delays"}) :
                         Result<ValidRoadStatus>.Failure($"The following road is not recognised: {v}")
                         ;
         }
