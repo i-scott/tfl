@@ -9,11 +9,15 @@ namespace RoadStatus.Tests.ServiceTests
         {
         }
 
-        public async Task<string> RunAsync(string v)
+        public async Task<Result<ValidRoadStatus>> RunAsync(string v)
         {
-            if (string.IsNullOrEmpty(v) ) return "The following road is not recognised: <empty>";
+            if (string.IsNullOrEmpty(v)) return Result<ValidRoadStatus>.Failure("The following road is not recognised: <empty>");
+           
 
-            return v == "A2" ? v : "The following road is not recognised: A2";
+            return v == "A2" ? 
+                        Result<ValidRoadStatus>.Success(new ValidRoadStatus{  DisplayName = v, StatusSeverity = "Good" }) :
+                        Result<ValidRoadStatus>.Failure($"The following road is not recognised: {v}")
+                        ;
         }
     }
 }

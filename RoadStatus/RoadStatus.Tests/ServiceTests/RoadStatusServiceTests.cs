@@ -12,7 +12,19 @@ namespace RoadStatus.Tests.ServiceTests
 
             var result = await sut.RunAsync("A2");
 
-            result.Should().Be("A2");
+            result.IsSuccess.Should().BeTrue();
+            result.Value.DisplayName.Should().Be("A2");
+        }
+
+        [Fact]
+        public async void WhenGivenValidRoadID_StatusSeverityIsReturned()
+        {
+            var sut = new RoadStatusService();
+
+            var result = await sut.RunAsync("A2");
+
+            result.IsSuccess.Should().BeTrue();
+            result.Value.StatusSeverity.Should().Be("Good");
         }
 
         [Fact]
@@ -22,7 +34,8 @@ namespace RoadStatus.Tests.ServiceTests
 
             var result = await sut.RunAsync("B3");
 
-            result.Should().Be("The following road is not recognised: A2");
+            result.IsSuccess!.Should().BeFalse();
+            result.Error.Should().Be("The following road is not recognised: B3");
         }
 
         [Fact]
@@ -32,7 +45,8 @@ namespace RoadStatus.Tests.ServiceTests
 
             var result = await sut.RunAsync("");
 
-            result.Should().Be("The following road is not recognised: <empty>");
+            result.IsSuccess!.Should().BeFalse();
+            result.Error.Should().Be("The following road is not recognised: <empty>");
         }
 
     }
