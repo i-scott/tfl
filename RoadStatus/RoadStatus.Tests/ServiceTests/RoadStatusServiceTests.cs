@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Application;
+using FluentAssertions;
 using Xunit;
 
 namespace RoadStatus.Tests.ServiceTests
@@ -24,7 +25,7 @@ namespace RoadStatus.Tests.ServiceTests
             var result = await sut.RunAsync("A2");
 
             result.IsSuccess.Should().BeTrue();
-            result.Value.StatusSeverity.Should().Be("Good");
+            result.Value.Severity.Should().Be("Good");
         }
 
         [Fact]
@@ -35,7 +36,7 @@ namespace RoadStatus.Tests.ServiceTests
             var result = await sut.RunAsync("A2");
 
             result.IsSuccess.Should().BeTrue();
-            result.Value.StatusSeverityDescription.Should().Be("No Exceptional Delays");
+            result.Value.SeverityDescription.Should().Be("No Exceptional Delays");
         }
 
         [Fact]
