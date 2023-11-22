@@ -1,6 +1,6 @@
-﻿using RoadStatusApplication.Core;
+﻿using TFLRoadStatusApplication.Core;
 
-namespace RoadStatusApplication
+namespace TFLRoadStatusApplication
 {
     public class RoadStatusService : IRoadStatusService
     {

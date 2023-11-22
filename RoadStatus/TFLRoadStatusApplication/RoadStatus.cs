@@ -1,4 +1,4 @@
-﻿namespace RoadStatusApplication
+﻿namespace TFLRoadStatusApplication
 {
     public record RoadStatus
     {
