@@ -1,6 +1,6 @@
-﻿using TFLRoadStatusApplication;
+﻿using TFLRoadStatus.Application;
 
-namespace TFLRoadStatusProvider
+namespace TFLRoadStatus.Service
 {
     public interface IMapper<TSource, TDestination>
     {

@@ -1,4 +1,4 @@
-﻿namespace TFLRoadStatusApplication.Core
+﻿namespace TFLRoadStatus.Application.Core
 {
     public class Result<T>
     {

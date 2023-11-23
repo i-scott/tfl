@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Newtonsoft.Json;
 
-namespace TFLRoadStatusProvider
+namespace TFLRoadStatus.Service
 {
     public class ValidRoadResponse
     {

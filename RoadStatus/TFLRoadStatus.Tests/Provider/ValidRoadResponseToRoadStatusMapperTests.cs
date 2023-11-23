@@ -1,9 +1,9 @@
 ﻿
 using FluentAssertions;
-using TFLRoadStatusProvider;
+using TFLRoadStatus.Service;
 using Xunit;
 
-namespace TFLRoadStatusTests.Provider
+namespace TFLRoadStatus.Tests.Provider
 {
     public class ValidRoadResponseToRoadStatusMapperTests
     {
@@ -39,7 +39,7 @@ namespace TFLRoadStatusTests.Provider
         {
             var mapper = new ValidRoadResponseToRoadStatusMapper();
 
-            var sourceValidRoadResponse = new ValidRoadResponse {  DisplayName = "DisplayName" };
+            var sourceValidRoadResponse = new ValidRoadResponse { DisplayName = "DisplayName" };
 
             var destinationRoadStatus = mapper.Map(sourceValidRoadResponse);
 

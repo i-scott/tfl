@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using TFLRoadStatusApplication;
+using TFLRoadStatus.Application;
 using Xunit;
 
-namespace TFLRoadStatusTests.ServiceTests
+namespace TFLRoadStatus.Tests.ServiceTests
 {
     public class RoadStatusServiceTests
     {

@@ -1,33 +1,33 @@
 ﻿using Newtonsoft.Json;
-using TFLRoadStatusApplication;
-using TFLRoadStatusApplication.Core;
+using TFLRoadStatus.Application;
+using TFLRoadStatus.Application.Core;
 
-namespace TFLRoadStatusProvider
+namespace TFLRoadStatus.Service
 {
-    public class RoadStatusProvider
+    public class TFLRoadStatusService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMapper<ValidRoadResponse, RoadStatus> _mapper;
-        private string baseRequestUri;
+        private readonly IURIProvider _uriProvider;
 
-        public RoadStatusProvider(IHttpClientFactory httpClientFactory, IMapper<ValidRoadResponse, RoadStatus> mapper)
+        private const string ROADURLFORMAT = "road/{0}";       
+
+        public TFLRoadStatusService(IHttpClientFactory httpClientFactory, IURIProvider uriProvider, IMapper<ValidRoadResponse, RoadStatus> mapper)
         {
             _httpClientFactory = httpClientFactory;
             _mapper = mapper;
-            baseRequestUri = "https://api.tfl.gov.uk/Road";
+            _uriProvider = uriProvider;
         }
 
-        private string GetFullURI(string requestedRoad)
-        {
-            return $"{baseRequestUri}/{requestedRoad}";
-
-        }
-
-        public async Task<Result<RoadStatus>> Execute(string v)
+        private static string GetRoadURL(string requestedRoad) => string.Format(ROADURLFORMAT, requestedRoad);
+        
+        public async Task<Result<RoadStatus>> Execute(string roadId)
         {
             var httpClient = _httpClientFactory.CreateClient();
 
-            var uri = GetFullURI(v);
+            var roadUrl = GetRoadURL(roadId);
+
+            var uri = _uriProvider.GetUrl(roadUrl);
 
             var result = await httpClient.GetAsync(uri);
 

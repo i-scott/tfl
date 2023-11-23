@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using TFLRoadStatusApplication.Core;
+using TFLRoadStatus.Application.Core;
 
-namespace TFLRoadStatusApplication
+namespace TFLRoadStatus.Application
 {
     public interface IRoadStatusService
     {

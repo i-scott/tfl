@@ -26,8 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TFLRoadStatusApplication\TFLRoadStatusApplication.csproj" />
-    <ProjectReference Include="..\TFLRoadStatusProvider\TFLRoadStatusProvider.csproj" />
+    <ProjectReference Include="..\TFLRoadStatus.Service\TFLRoadStatus.Service.csproj" />
   </ItemGroup>
 
 </Project>
