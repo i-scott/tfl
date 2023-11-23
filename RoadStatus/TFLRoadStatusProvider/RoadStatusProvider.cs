@@ -1,4 +1,5 @@
-﻿using TFLRoadStatusApplication;
+﻿using Newtonsoft.Json;
+using TFLRoadStatusApplication;
 using TFLRoadStatusApplication.Core;
 
 namespace TFLRoadStatusProvider
@@ -6,12 +7,13 @@ namespace TFLRoadStatusProvider
     public class RoadStatusProvider
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
+        private readonly IMapper<ValidRoadResponse, RoadStatus> _mapper;
         private string baseRequestUri;
 
-        public RoadStatusProvider(IHttpClientFactory httpClientFactory)
+        public RoadStatusProvider(IHttpClientFactory httpClientFactory, IMapper<ValidRoadResponse, RoadStatus> mapper)
         {
             _httpClientFactory = httpClientFactory;
+            _mapper = mapper;
             baseRequestUri = "https://api.tfl.gov.uk/Road";
         }
 
@@ -31,7 +33,13 @@ namespace TFLRoadStatusProvider
 
             if (result.IsSuccessStatusCode)
             {
-                return Result<RoadStatus>.Success(new RoadStatus());
+                var stringData = await result.Content.ReadAsStringAsync();
+
+                var deserialzedResult = JsonConvert.DeserializeObject<ValidRoadResponse>(stringData);
+
+                var roadStatus = _mapper.Map(deserialzedResult);
+
+                return Result<RoadStatus>.Success(roadStatus);
             }
             else
             {

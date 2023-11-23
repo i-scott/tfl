@@ -15,7 +15,7 @@ namespace TFLRoadStatusTests.Provider
     public class RoadStatusProviderTests
     {
         [Fact]
-        public async void WhenProviderGets200_ReturnsRoadStatus()
+        public async void WhenProviderGets200_ReturnsRoadStatusType()
         {
             var expected = TFLApiResultTypes.GoodStatus();
             var clientHandlerStub = GetDelegatingHandlerStubForRequest(HttpStatusCode.OK, expected);            
@@ -24,7 +24,7 @@ namespace TFLRoadStatusTests.Provider
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
-            var sut = new RoadStatusProvider( mockHttpClientFactory.Object);
+            var sut = new RoadStatusProvider(mockHttpClientFactory.Object, new ValidRoadResponseToRoadStatusMapper());
 
             var result = await sut.Execute("A2");
 
@@ -42,12 +42,32 @@ namespace TFLRoadStatusTests.Provider
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
-            var sut = new RoadStatusProvider(mockHttpClientFactory.Object);
+            var sut = new RoadStatusProvider(mockHttpClientFactory.Object, new ValidRoadResponseToRoadStatusMapper());
 
             var result = await sut.Execute("A2");
 
             result.IsSuccess.Should().BeFalse();
         }
+
+        [Fact]
+        public async void WhenProviderGets200_ReturnsRoadStatusWithSeverity()
+        {
+            var expectedSeverity = "This is a test";
+            var expectedBody = TFLApiResultTypes.GoodStatus(expectedSeverity);
+            var clientHandlerStub = GetDelegatingHandlerStubForRequest(HttpStatusCode.OK, expectedBody);
+            var client = new HttpClient(clientHandlerStub);
+
+            var mockHttpClientFactory = new Mock<IHttpClientFactory>();
+            mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
+
+            var sut = new RoadStatusProvider(mockHttpClientFactory.Object, new ValidRoadResponseToRoadStatusMapper());
+
+            var result = await sut.Execute("A2");
+
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Severity.Should().Be(expectedSeverity);
+        }
+
 
         private DelegatingHandlerStub GetDelegatingHandlerStubForRequest( HttpStatusCode statusCode, string content) 
         {
@@ -65,14 +85,14 @@ namespace TFLRoadStatusTests.Provider
 
     internal static class TFLApiResultTypes
     {
-        public static string GoodStatus()
+        public static string GoodStatus(string severity = "Good")
         {
             return JsonConvert.SerializeObject(new ValidRoadResponse
             {
                 Type = "Tfl.Api.Presentation.Entities.RoadCorridor, Tfl.Api.Presentation.Entities",
                 ID = "a2",
                 DisplayName = "A2",
-                StatusSeverity = "Good",
+                StatusSeverity = severity,
                 StatusSeverityDescription = "No Exceptional Delays",
                 Bounds = new double[,] { { -0.0857, 51.44091 }, { 0.17118, 51.49438 } },
                 Envelope = new double[,] { { -0.0857, 51.44091 }, { -0.0857, 51.49438 }, { 0.17118, 51.49438 }, { 0.17118, 51.44091 }, { -0.0857, 51.44091 } },
