@@ -50,10 +50,13 @@ namespace TFLRoadStatusTests.Provider
         }
 
         [Fact]
-        public async void WhenProviderGets200_ReturnsRoadStatusWithSeverity()
+        public async void WhenProviderGets200_ReturnsRoadStatusWithExpectedValues()
         {
             var expectedSeverity = "This is a test";
-            var expectedBody = TFLApiResultTypes.GoodStatus(expectedSeverity);
+            var expectedSeverityDescription = "This is a test";
+            var expectedDisplayName  = "This is a test";
+
+            var expectedBody = TFLApiResultTypes.GoodStatus(expectedSeverity, expectedSeverityDescription, expectedDisplayName);
             var clientHandlerStub = GetDelegatingHandlerStubForRequest(HttpStatusCode.OK, expectedBody);
             var client = new HttpClient(clientHandlerStub);
 
@@ -66,8 +69,9 @@ namespace TFLRoadStatusTests.Provider
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Severity.Should().Be(expectedSeverity);
+            result.Value.SeverityDescription.Should().Be(expectedSeverityDescription);
+            result.Value.DisplayName.Should().Be(expectedDisplayName);
         }
-
 
         private DelegatingHandlerStub GetDelegatingHandlerStubForRequest( HttpStatusCode statusCode, string content) 
         {
@@ -85,15 +89,15 @@ namespace TFLRoadStatusTests.Provider
 
     internal static class TFLApiResultTypes
     {
-        public static string GoodStatus(string severity = "Good")
+        public static string GoodStatus(string severity = "Good", string severityDescription = "No Exceptional Delays", string displayName = "A2")
         {
             return JsonConvert.SerializeObject(new ValidRoadResponse
             {
                 Type = "Tfl.Api.Presentation.Entities.RoadCorridor, Tfl.Api.Presentation.Entities",
                 ID = "a2",
-                DisplayName = "A2",
+                DisplayName = displayName,
                 StatusSeverity = severity,
-                StatusSeverityDescription = "No Exceptional Delays",
+                StatusSeverityDescription = severityDescription,
                 Bounds = new double[,] { { -0.0857, 51.44091 }, { 0.17118, 51.49438 } },
                 Envelope = new double[,] { { -0.0857, 51.44091 }, { -0.0857, 51.49438 }, { 0.17118, 51.49438 }, { 0.17118, 51.44091 }, { -0.0857, 51.44091 } },
                 url = "/Road/a2"
