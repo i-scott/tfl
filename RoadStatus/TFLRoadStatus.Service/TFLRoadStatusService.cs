@@ -4,13 +4,13 @@ using TFLRoadStatus.Application.Core;
 
 namespace TFLRoadStatus.Service
 {
-    public class TFLRoadStatusService
+    public class TFLRoadStatusService : IRoadStatusService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMapper<ValidRoadResponse, RoadStatus> _mapper;
         private readonly IURIProvider _uriProvider;
 
-        private const string ROADURLFORMAT = "road/{0}";       
+        private const string ROADURLFORMAT = "road/{0}";
 
         public TFLRoadStatusService(IHttpClientFactory httpClientFactory, IURIProvider uriProvider, IMapper<ValidRoadResponse, RoadStatus> mapper)
         {
@@ -20,7 +20,7 @@ namespace TFLRoadStatus.Service
         }
 
         private static string GetRoadURL(string requestedRoad) => string.Format(ROADURLFORMAT, requestedRoad);
-        
+
         public async Task<Result<RoadStatus>> Execute(string roadId)
         {
             var httpClient = _httpClientFactory.CreateClient();

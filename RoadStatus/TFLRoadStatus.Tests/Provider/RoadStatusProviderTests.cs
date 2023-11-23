@@ -25,7 +25,9 @@ namespace TFLRoadStatus.Tests.Provider
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
-            var sut = new TFLRoadStatusService(mockHttpClientFactory.Object, new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"), new ValidRoadResponseToRoadStatusMapper());
+            var sut = new TFLRoadStatusService(mockHttpClientFactory.Object, 
+                                            new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"), 
+                                            new ValidRoadResponseToRoadStatusMapper());
 
             var result = await sut.Execute("A2");
 
@@ -43,7 +45,9 @@ namespace TFLRoadStatus.Tests.Provider
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
-            var sut = new TFLRoadStatusService(mockHttpClientFactory.Object, new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"), new ValidRoadResponseToRoadStatusMapper());
+            var sut = new TFLRoadStatusService(mockHttpClientFactory.Object, 
+                                            new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"),
+                                            new ValidRoadResponseToRoadStatusMapper());
 
             var result = await sut.Execute("A2");
 
@@ -64,7 +68,9 @@ namespace TFLRoadStatus.Tests.Provider
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
-            var sut = new TFLRoadStatusService(mockHttpClientFactory.Object, new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"), new ValidRoadResponseToRoadStatusMapper());
+            var sut = new TFLRoadStatusService(mockHttpClientFactory.Object,
+                                            new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"),
+                                            new ValidRoadResponseToRoadStatusMapper());
 
             var result = await sut.Execute("A2");
 
@@ -88,7 +94,9 @@ namespace TFLRoadStatus.Tests.Provider
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
-            var sut = new TFLRoadStatusService(mockHttpClientFactory.Object, new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"), new ValidRoadResponseToRoadStatusMapper());
+            var sut = new TFLRoadStatusService(mockHttpClientFactory.Object,
+                                            new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"),
+                                            new ValidRoadResponseToRoadStatusMapper());
 
             var result = await sut.Execute("A2");
 
@@ -97,8 +105,7 @@ namespace TFLRoadStatus.Tests.Provider
 
         private DelegatingHandlerStub GetDelegatingHandlerStubForRequest(HttpStatusCode statusCode, string content)
         {
-            var a = string.Empty;
-            var bob = new DelegatingHandlerStub((request, cancellationToken) =>
+            return  new DelegatingHandlerStub((request, cancellationToken) =>
             {
                 var response = new HttpResponseMessage(statusCode)
                 {
@@ -106,12 +113,8 @@ namespace TFLRoadStatus.Tests.Provider
                 };
                 return Task.FromResult(response);
             });
-
-            return bob;
         }
     }
-
-
 
     internal static class TFLApiResultTypes
     {

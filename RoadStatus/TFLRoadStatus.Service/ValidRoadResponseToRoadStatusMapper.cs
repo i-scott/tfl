@@ -5,7 +5,6 @@ namespace TFLRoadStatus.Service
     public interface IMapper<TSource, TDestination>
     {
         TDestination Map(TSource source);
-
     }
 
     public class ValidRoadResponseToRoadStatusMapper : IMapper<ValidRoadResponse, RoadStatus>
