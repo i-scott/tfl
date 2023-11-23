@@ -14,7 +14,9 @@ namespace TFLRoadStatusProvider
         {
             return new RoadStatus
             {
-                Severity = source.StatusSeverity
+                Severity = source.StatusSeverity,
+                SeverityDescription = source.StatusSeverityDescription,
+                DisplayName = source.DisplayName
             };
         }
     }
