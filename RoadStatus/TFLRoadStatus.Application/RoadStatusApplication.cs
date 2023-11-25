@@ -19,6 +19,8 @@ namespace TFLRoadStatus.Application
 
         public async Task<Result<RoadStatusResult>> RunAsync(string roadId)
         {
+            _logger.LogTrace($"Running {nameof(RoadStatusApplication)}:{nameof(RunAsync)}", roadId);
+
             var result = await _roadStatusService.ExecuteAsync(roadId);
 
             _roadStatusConsoleWriter.WriteToOutput(result);
