@@ -10,7 +10,7 @@ namespace TFLRoadStatus.Tests.Provider
     {
         private readonly Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> _handlerFunc;
 
-        public string RequestUrlUsed { get; set; }
+        public string? RequestUrlUsed { get; set; }
 
         public DelegatingHandlerStub()
         {

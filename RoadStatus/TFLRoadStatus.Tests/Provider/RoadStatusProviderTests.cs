@@ -8,8 +8,7 @@ using Newtonsoft.Json;
 using FluentAssertions;
 
 using TFLRoadStatus.Service;
-using TFLRoadStatus.Application;
-using TFLRoadStatus.Application.Core;
+using TFLRoadStatus.Domain;
 
 namespace TFLRoadStatus.Tests.Provider
 {
@@ -29,10 +28,10 @@ namespace TFLRoadStatus.Tests.Provider
                                             new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"), 
                                             new ValidRoadResponseToRoadStatusMapper());
 
-            var result = await sut.Execute("A2");
+            var result = await sut.ExecuteAsync("A2");
 
             result.IsSuccess.Should().BeTrue();
-            result.Should().BeOfType<Result<RoadStatus>>();
+            result.Should().BeOfType<Result<RoadStatusResult>>();
         }
 
         [Fact]
@@ -49,7 +48,7 @@ namespace TFLRoadStatus.Tests.Provider
                                             new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"),
                                             new ValidRoadResponseToRoadStatusMapper());
 
-            var result = await sut.Execute("A2");
+            var result = await sut.ExecuteAsync("A2");
 
             result.IsSuccess.Should().BeFalse();
         }
@@ -72,7 +71,7 @@ namespace TFLRoadStatus.Tests.Provider
                                             new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"),
                                             new ValidRoadResponseToRoadStatusMapper());
 
-            var result = await sut.Execute("A2");
+            var result = await sut.ExecuteAsync("A2");
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Severity.Should().Be(expectedSeverity);
@@ -98,7 +97,7 @@ namespace TFLRoadStatus.Tests.Provider
                                             new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"),
                                             new ValidRoadResponseToRoadStatusMapper());
 
-            var result = await sut.Execute("A2");
+            var result = await sut.ExecuteAsync("A2");
 
             clientHandlerStub.RequestUrlUsed.Should().Be(expectedUrl);            
         }

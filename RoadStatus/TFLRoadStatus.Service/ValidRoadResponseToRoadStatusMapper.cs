@@ -1,4 +1,4 @@
-﻿using TFLRoadStatus.Application;
+﻿using TFLRoadStatus.Domain;
 
 namespace TFLRoadStatus.Service
 {
@@ -7,11 +7,11 @@ namespace TFLRoadStatus.Service
         TDestination Map(TSource source);
     }
 
-    public class ValidRoadResponseToRoadStatusMapper : IMapper<ValidRoadResponse, RoadStatus>
+    public class ValidRoadResponseToRoadStatusMapper : IMapper<ValidRoadResponse, RoadStatusResult>
     {
-        public RoadStatus Map(ValidRoadResponse source)
+        public RoadStatusResult Map(ValidRoadResponse source)
         {
-            return new RoadStatus
+            return new RoadStatusResult
             {
                 Severity = source.StatusSeverity,
                 SeverityDescription = source.StatusSeverityDescription,

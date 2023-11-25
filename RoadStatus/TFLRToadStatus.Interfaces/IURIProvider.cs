@@ -1,4 +1,4 @@
-﻿namespace TFLRoadStatus.Service
+﻿namespace TFLRToadStatus.Interfaces
 {
     public interface IURIProvider
     {

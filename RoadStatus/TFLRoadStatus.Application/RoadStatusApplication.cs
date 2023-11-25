@@ -1,22 +1,21 @@
-﻿using TFLRoadStatus.Application.Core;
+﻿using TFLRoadStatus.Domain;
+using TFLRToadStatus.Interfaces;
 
 namespace TFLRoadStatus.Application
 {
-    public class RoadStatusService : IRoadStatusService
+    public class RoadStatusApplication : IRoadStatus
     {
-        public RoadStatusService()
+        private readonly IRoadStatusService _roadStatusService;
+        public RoadStatusApplication(IRoadStatusService roadStatusService)
         {
+            _roadStatusService = roadStatusService;
         }
 
-        public async Task<Result<RoadStatus>> RunAsync(string v)
+        public async Task<Result<RoadStatusResult>> RunAsync(string roadId)
         {
-            if (string.IsNullOrEmpty(v)) return
-                Result<RoadStatus>.Failure("The following road is not recognised: <empty>");
+            var result = await _roadStatusService.ExecuteAsync(roadId);
 
-            return v == "A2" ?
-                        Result<RoadStatus>.Success(new RoadStatus { DisplayName = v, Severity = "Good", SeverityDescription = "No Exceptional Delays" }) :
-                        Result<RoadStatus>.Failure($"The following road is not recognised: {v}")
-                        ;
+            return result;
         }
     }
 }

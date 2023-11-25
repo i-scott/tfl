@@ -1,6 +1,6 @@
-﻿namespace TFLRoadStatus.Application
+﻿namespace TFLRoadStatus.Domain
 {
-    public record RoadStatus
+    public record RoadStatusResult
     {
         public string? DisplayName;
         public string? Severity;

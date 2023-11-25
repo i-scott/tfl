@@ -1,18 +1,18 @@
 ﻿using Newtonsoft.Json;
-using TFLRoadStatus.Application;
-using TFLRoadStatus.Application.Core;
+using TFLRoadStatus.Domain;
+using TFLRToadStatus.Interfaces;
 
 namespace TFLRoadStatus.Service
 {
     public class TFLRoadStatusService : IRoadStatusService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IMapper<ValidRoadResponse, RoadStatus> _mapper;
+        private readonly IMapper<ValidRoadResponse, RoadStatusResult> _mapper;
         private readonly IURIProvider _uriProvider;
 
         private const string ROADURLFORMAT = "road/{0}";
 
-        public TFLRoadStatusService(IHttpClientFactory httpClientFactory, IURIProvider uriProvider, IMapper<ValidRoadResponse, RoadStatus> mapper)
+        public TFLRoadStatusService(IHttpClientFactory httpClientFactory, IURIProvider uriProvider, IMapper<ValidRoadResponse, RoadStatusResult> mapper)
         {
             _httpClientFactory = httpClientFactory;
             _mapper = mapper;
@@ -21,7 +21,7 @@ namespace TFLRoadStatus.Service
 
         private static string GetRoadURL(string requestedRoad) => string.Format(ROADURLFORMAT, requestedRoad);
 
-        public async Task<Result<RoadStatus>> Execute(string roadId)
+        public async Task<Result<RoadStatusResult>> ExecuteAsync(string roadId)
         {
             var httpClient = _httpClientFactory.CreateClient();
 
@@ -39,11 +39,11 @@ namespace TFLRoadStatus.Service
 
                 var roadStatus = _mapper.Map(deserialzedResult);
 
-                return Result<RoadStatus>.Success(roadStatus);
+                return Result<RoadStatusResult>.Success(roadStatus);
             }
             else
             {
-                return Result<RoadStatus>.Failure("Unsuccessful Request");
+                return Result<RoadStatusResult>.Failure("Unsuccessful Request");
             }
         }
     }

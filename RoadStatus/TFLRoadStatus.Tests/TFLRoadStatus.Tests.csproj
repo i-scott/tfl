@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TFLRoadStatus.Service\TFLRoadStatus.Service.csproj" />
+    <ProjectReference Include="..\TFLRToadStatus.Interfaces\TFLRToadStatus.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

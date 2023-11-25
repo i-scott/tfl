@@ -1,4 +1,6 @@
-﻿namespace TFLRoadStatus.Service
+﻿using TFLRToadStatus.Interfaces;
+
+namespace TFLRoadStatus.Service
 {
     public class TFLAppKeySecuredUriProvider : IURIProvider
     {

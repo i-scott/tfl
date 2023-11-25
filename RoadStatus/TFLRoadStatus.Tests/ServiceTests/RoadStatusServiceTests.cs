@@ -1,5 +1,8 @@
 ﻿using FluentAssertions;
+using Moq;
 using TFLRoadStatus.Application;
+using TFLRoadStatus.Domain;
+using TFLRToadStatus.Interfaces;
 using Xunit;
 
 namespace TFLRoadStatus.Tests.ServiceTests
@@ -9,7 +12,14 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenValidRoadID_DisplayNameIsReturned()
         {
-            var sut = new RoadStatusService();
+            var mockRoadStatusService = new Mock<IRoadStatusService>();
+
+            mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>())).ReturnsAsync( (string roadId) =>
+            {
+                return Result<RoadStatusResult>.Success(new RoadStatusResult { DisplayName = roadId});
+            });
+
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
 
             var result = await sut.RunAsync("A2");
 
@@ -20,7 +30,12 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenValidRoadID_StatusSeverityIsReturned()
         {
-            var sut = new RoadStatusService();
+            var mockRoadStatusService = new Mock<IRoadStatusService>();
+
+            mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>()))
+                                    .ReturnsAsync(Result<RoadStatusResult>.Success(new RoadStatusResult { Severity = "Good"}));
+
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
 
             var result = await sut.RunAsync("A2");
 
@@ -31,7 +46,12 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenValidRoadID_StatusSeverityDescriptionIsReturned()
         {
-            var sut = new RoadStatusService();
+            var mockRoadStatusService = new Mock<IRoadStatusService>();
+
+            mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>()))
+                                    .ReturnsAsync(Result<RoadStatusResult>.Success(new RoadStatusResult { SeverityDescription = "No Exceptional Delays" }));
+
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
 
             var result = await sut.RunAsync("A2");
 
@@ -42,7 +62,14 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenInvalidRoadID_RoadNotRecognisedReturned()
         {
-            var sut = new RoadStatusService();
+            var mockRoadStatusService = new Mock<IRoadStatusService>();
+
+            mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>())).ReturnsAsync((string roadId) =>
+            {
+                return Result<RoadStatusResult>.Failure($"The following road is not recognised: {roadId}");
+            });
+
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
 
             var result = await sut.RunAsync("B3");
 
@@ -53,7 +80,12 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenNoRoadID_RoadNotRecognisedReturnedWithEmpty()
         {
-            var sut = new RoadStatusService();
+            var mockRoadStatusService = new Mock<IRoadStatusService>();
+
+            mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>()))
+                                    .ReturnsAsync(Result<RoadStatusResult>.Failure("The following road is not recognised: <empty>"));
+            
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
 
             var result = await sut.RunAsync("");
 
