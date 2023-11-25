@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Configuration;
 using RoadStatus.Infrastructure;
 using System;
 using System.IO;
@@ -27,14 +28,13 @@ namespace RoadStatus
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var serviceCollection = new ServiceCollection()
-                    .AddLogging(builder => builder.AddConsole());
+            var serviceCollection = new ServiceCollection();
 
             serviceCollection.AddTFLRoadService(config);
-
             serviceCollection.AddSingleton<IResultWriter<RoadStatusResult>, RoadStatusResultConsoleWriter>();
-
             serviceCollection.AddSingleton<IRoadStatus, RoadStatusApplication>();
+
+            serviceCollection.AddLogging(builder => builder.AddConsole().AddConfiguration());
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
 

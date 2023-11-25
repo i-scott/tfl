@@ -26,7 +26,7 @@ namespace TFLRoadStatus.Service
 
         public async Task<Result<RoadStatusResult>> ExecuteAsync(string roadId)
         {
-            _logger.LogTrace($"Running {nameof(TFLRoadStatusService)}:{nameof(ExecuteAsync)}", roadId);
+            _logger.LogTrace($"Running {nameof(TFLRoadStatusService)}:{nameof(ExecuteAsync)} with roadId {roadId}");
 
             try
             {
@@ -55,7 +55,7 @@ namespace TFLRoadStatus.Service
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, $"Excpetion thrown in {nameof(TFLRoadStatusService)}:{nameof(ExecuteAsync)}", roadId);
+                _logger.LogError(ex, $"Excpetion thrown in {nameof(TFLRoadStatusService)}:{nameof(ExecuteAsync)} with roadId {roadId}");
                 throw;
             }
         }
