@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using TFLRoadStatus.Application;
 using TFLRoadStatus.Domain;
@@ -12,6 +13,8 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenValidRoadID_DisplayNameIsReturned()
         {
+            var mockLogger = new Mock<ILogger<RoadStatusApplication>>();
+            var mockWriter = new Mock<IResultWriter<RoadStatusResult>> ();
             var mockRoadStatusService = new Mock<IRoadStatusService>();
 
             mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>())).ReturnsAsync( (string roadId) =>
@@ -19,7 +22,7 @@ namespace TFLRoadStatus.Tests.ServiceTests
                 return Result<RoadStatusResult>.Success(new RoadStatusResult { DisplayName = roadId});
             });
 
-            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object, mockWriter.Object, mockLogger.Object);
 
             var result = await sut.RunAsync("A2");
 
@@ -30,12 +33,14 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenValidRoadID_StatusSeverityIsReturned()
         {
+            var mockLogger = new Mock<ILogger<RoadStatusApplication>>();
+            var mockWriter = new Mock<IResultWriter<RoadStatusResult>>();
             var mockRoadStatusService = new Mock<IRoadStatusService>();
 
             mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>()))
                                     .ReturnsAsync(Result<RoadStatusResult>.Success(new RoadStatusResult { Severity = "Good"}));
 
-            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object, mockWriter.Object, mockLogger.Object);
 
             var result = await sut.RunAsync("A2");
 
@@ -46,12 +51,14 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenValidRoadID_StatusSeverityDescriptionIsReturned()
         {
+            var mockLogger = new Mock<ILogger<RoadStatusApplication>>();
+            var mockWriter = new Mock<IResultWriter<RoadStatusResult>>();
             var mockRoadStatusService = new Mock<IRoadStatusService>();
 
             mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>()))
                                     .ReturnsAsync(Result<RoadStatusResult>.Success(new RoadStatusResult { SeverityDescription = "No Exceptional Delays" }));
 
-            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object, mockWriter.Object, mockLogger.Object);
 
             var result = await sut.RunAsync("A2");
 
@@ -62,6 +69,8 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenInvalidRoadID_RoadNotRecognisedReturned()
         {
+            var mockLogger = new Mock<ILogger<RoadStatusApplication>>();
+            var mockWriter = new Mock<IResultWriter<RoadStatusResult>>();
             var mockRoadStatusService = new Mock<IRoadStatusService>();
 
             mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>())).ReturnsAsync((string roadId) =>
@@ -69,7 +78,7 @@ namespace TFLRoadStatus.Tests.ServiceTests
                 return Result<RoadStatusResult>.Failure($"The following road is not recognised: {roadId}");
             });
 
-            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object, mockWriter.Object, mockLogger.Object);
 
             var result = await sut.RunAsync("B3");
 
@@ -80,12 +89,14 @@ namespace TFLRoadStatus.Tests.ServiceTests
         [Fact]
         public async void WhenGivenNoRoadID_RoadNotRecognisedReturnedWithEmpty()
         {
+            var mockLogger = new Mock<ILogger<RoadStatusApplication>>();
+            var mockWriter = new Mock<IResultWriter<RoadStatusResult>>();
             var mockRoadStatusService = new Mock<IRoadStatusService>();
 
             mockRoadStatusService.Setup(rs => rs.ExecuteAsync(It.IsAny<string>()))
                                     .ReturnsAsync(Result<RoadStatusResult>.Failure("The following road is not recognised: <empty>"));
-            
-            var sut = new RoadStatusApplication(mockRoadStatusService.Object);
+
+            var sut = new RoadStatusApplication(mockRoadStatusService.Object, mockWriter.Object, mockLogger.Object);
 
             var result = await sut.RunAsync("");
 

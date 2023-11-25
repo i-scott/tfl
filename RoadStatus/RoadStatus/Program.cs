@@ -5,6 +5,8 @@ using RoadStatus.Infrastructure;
 using System;
 using System.IO;
 using TFLRoadStatus.Application;
+using TFLRoadStatus.Domain;
+using TFLRToadStatus.Interfaces;
 
 namespace RoadStatus
 {
@@ -28,8 +30,9 @@ namespace RoadStatus
             var serviceCollection = new ServiceCollection()
                     .AddLogging(builder => builder.AddConsole());
 
-
             serviceCollection.AddTFLRoadService(config);
+
+            serviceCollection.AddSingleton<IResultWriter<RoadStatusResult>, RoadStatusResultConsoleWriter>();
 
             serviceCollection.AddSingleton<IRoadStatus, RoadStatusApplication>();
 
