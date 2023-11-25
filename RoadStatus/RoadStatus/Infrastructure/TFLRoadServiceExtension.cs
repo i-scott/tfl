@@ -23,7 +23,7 @@ namespace RoadStatus.Infrastructure
             services.AddSingleton<IURIProvider>((provider) =>
             {
                 var tflSection = config.GetSection("tfl");
-                var tflSecuritySection = tflSection.GetSection("secuirty");
+                var tflSecuritySection = tflSection.GetSection("security");
                 var tflBaseUrl = tflSection.GetValue<string>("baseUrl");
 
                 var tflAppID = tflSecuritySection.GetValue<string>("appId");
