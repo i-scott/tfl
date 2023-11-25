@@ -10,6 +10,7 @@ using FluentAssertions;
 using TFLRoadStatus.Service;
 using TFLRoadStatus.Domain;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace TFLRoadStatus.Tests.Provider
 {
@@ -21,13 +22,15 @@ namespace TFLRoadStatus.Tests.Provider
             var expected = TFLApiResultTypes.GoodStatus();
             var clientHandlerStub = GetDelegatingHandlerStubForRequest(HttpStatusCode.OK, expected);
             var client = new HttpClient(clientHandlerStub);
+            var mockLogger = new Mock<ILogger<TFLRoadStatusService>>();
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             var sut = new TFLRoadStatusService(mockHttpClientFactory.Object, 
                                             new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"), 
-                                            new ValidRoadResponseToRoadStatusMapper());
+                                            new ValidRoadResponseToRoadStatusMapper(),
+                                            mockLogger.Object);
 
             var result = await sut.ExecuteAsync("A2");
 
@@ -41,13 +44,15 @@ namespace TFLRoadStatus.Tests.Provider
             var expected = TFLApiResultTypes.BadStatusNotFound();
             var clientHandlerStub = GetDelegatingHandlerStubForRequest(HttpStatusCode.NotFound, expected);
             var client = new HttpClient(clientHandlerStub);
+            var mockLogger = new Mock<ILogger<TFLRoadStatusService>>();
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             var sut = new TFLRoadStatusService(mockHttpClientFactory.Object, 
                                             new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"),
-                                            new ValidRoadResponseToRoadStatusMapper());
+                                            new ValidRoadResponseToRoadStatusMapper(),
+                                            mockLogger.Object);
 
             var result = await sut.ExecuteAsync("A2");
 
@@ -64,13 +69,15 @@ namespace TFLRoadStatus.Tests.Provider
             var expectedBody = TFLApiResultTypes.GoodStatus(expectedSeverity, expectedSeverityDescription, expectedDisplayName);
             var clientHandlerStub = GetDelegatingHandlerStubForRequest(HttpStatusCode.OK, expectedBody);
             var client = new HttpClient(clientHandlerStub);
+            var mockLogger = new Mock<ILogger<TFLRoadStatusService>>();
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             var sut = new TFLRoadStatusService(mockHttpClientFactory.Object,
                                             new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"),
-                                            new ValidRoadResponseToRoadStatusMapper());
+                                            new ValidRoadResponseToRoadStatusMapper(),
+                                            mockLogger.Object);
 
             var result = await sut.ExecuteAsync("A2");
 
@@ -90,13 +97,15 @@ namespace TFLRoadStatus.Tests.Provider
             var data = TFLApiResultTypes.GoodStatus();
             var clientHandlerStub = GetDelegatingHandlerStubForRequest(HttpStatusCode.OK, data);
             var client = new HttpClient(clientHandlerStub);
+            var mockLogger = new Mock<ILogger<TFLRoadStatusService>>();
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             var sut = new TFLRoadStatusService(mockHttpClientFactory.Object,
                                             new TFLAppKeySecuredUriProvider("http://localhost", "appId", "appKey"),
-                                            new ValidRoadResponseToRoadStatusMapper());
+                                            new ValidRoadResponseToRoadStatusMapper(),
+                                            mockLogger.Object);
 
             var result = await sut.ExecuteAsync("A2");
 
