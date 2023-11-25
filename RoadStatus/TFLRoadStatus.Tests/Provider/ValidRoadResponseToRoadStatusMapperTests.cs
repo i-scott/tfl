@@ -1,5 +1,4 @@
-﻿
-using FluentAssertions;
+﻿using FluentAssertions;
 using System.Collections.Generic;
 using TFLRoadStatus.Service;
 using Xunit;
