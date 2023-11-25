@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using TFLRoadStatus.Domain;
+﻿using TFLRoadStatus.Domain;
 
 namespace TFLRoadStatus.Application
 {

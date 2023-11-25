@@ -9,6 +9,7 @@ using FluentAssertions;
 
 using TFLRoadStatus.Service;
 using TFLRoadStatus.Domain;
+using System.Collections.Generic;
 
 namespace TFLRoadStatus.Tests.Provider
 {
@@ -118,17 +119,19 @@ namespace TFLRoadStatus.Tests.Provider
     internal static class TFLApiResultTypes
     {
         public static string GoodStatus(string severity = "Good", string severityDescription = "No Exceptional Delays", string displayName = "A2")
-        {
-            return JsonConvert.SerializeObject(new ValidRoadResponse
-            {
-                Type = "Tfl.Api.Presentation.Entities.RoadCorridor, Tfl.Api.Presentation.Entities",
-                ID = "a2",
-                DisplayName = displayName,
-                StatusSeverity = severity,
-                StatusSeverityDescription = severityDescription,
-                Bounds = new double[,] { { -0.0857, 51.44091 }, { 0.17118, 51.49438 } },
-                Envelope = new double[,] { { -0.0857, 51.44091 }, { -0.0857, 51.49438 }, { 0.17118, 51.49438 }, { 0.17118, 51.44091 }, { -0.0857, 51.44091 } },
-                url = "/Road/a2"
+        {                        
+            return JsonConvert.SerializeObject( new List<ValidRoadResponse> () {
+                        new ValidRoadResponse
+                        {
+                            Type = "Tfl.Api.Presentation.Entities.RoadCorridor, Tfl.Api.Presentation.Entities",
+                            ID = "a2",
+                            DisplayName = displayName,
+                            StatusSeverity = severity,
+                            StatusSeverityDescription = severityDescription,
+                            Bounds = "[[-0.0857,51.44091],[0.17118,51.49438]]",
+                            Envelope = "[[-0.0857,51.44091],[-0.0857,51.49438],[0.17118,51.49438],[0.17118,51.44091],[-0.0857,51.44091]]",
+                            url = "/Road/a2"
+                        }
             });
         }
 

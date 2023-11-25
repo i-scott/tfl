@@ -7,15 +7,15 @@ namespace TFLRoadStatus.Service
         TDestination Map(TSource source);
     }
 
-    public class ValidRoadResponseToRoadStatusMapper : IMapper<ValidRoadResponse, RoadStatusResult>
+    public class ValidRoadResponseToRoadStatusMapper : IMapper<List<ValidRoadResponse>, RoadStatusResult>
     {
-        public RoadStatusResult Map(ValidRoadResponse source)
+        public RoadStatusResult Map(List<ValidRoadResponse> source)
         {
             return new RoadStatusResult
             {
-                Severity = source.StatusSeverity,
-                SeverityDescription = source.StatusSeverityDescription,
-                DisplayName = source.DisplayName
+                Severity = source[0].StatusSeverity,
+                SeverityDescription = source[0].StatusSeverityDescription,
+                DisplayName = source[0].DisplayName
             };
         }
     }

@@ -24,7 +24,9 @@ namespace TFLRoadStatus.Tests.Provider
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             RequestUrlUsed = request.RequestUri.OriginalString;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             return _handlerFunc(request, cancellationToken);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using TFLRoadStatus.Domain;
 using TFLRoadStatus.Service;
 using TFLRToadStatus.Interfaces;
@@ -13,7 +14,7 @@ namespace RoadStatus.Infrastructure
         {
             services.AddHttpClient();
 
-            services.AddSingleton<IMapper<ValidRoadResponse, RoadStatusResult>, ValidRoadResponseToRoadStatusMapper>();
+            services.AddSingleton<IMapper<List<ValidRoadResponse>, RoadStatusResult>, ValidRoadResponseToRoadStatusMapper>();
             services.AddSingleton<IRoadStatusService, TFLRoadStatusService>();
 
             services.AddSingleton<IURIProvider>((provider) =>

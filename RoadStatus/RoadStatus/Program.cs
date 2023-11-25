@@ -10,8 +10,16 @@ namespace RoadStatus
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
+            if(args.Length == 0) 
+            {
+                Console.WriteLine("Please provide Road ID");
+                return -1;
+            }
+
+            var requestedRoadId = args[0];
+
             IConfigurationRoot config = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(AppContext.BaseDirectory))
                 .AddJsonFile("appsettings.json")
@@ -29,10 +37,15 @@ namespace RoadStatus
 
             //do the actual work here
             var roadStatus = serviceProvider.GetService<IRoadStatus>();
+            if(roadStatus == null )
+            {
+                Console.WriteLine("System Error");
+                return -2;
+            }
 
-            roadStatus.RunAsync("A2").GetAwaiter().GetResult();
+            var result = roadStatus.RunAsync(requestedRoadId).GetAwaiter().GetResult();
 
-            Console.WriteLine("Hello, World!");
+            return result.IsSuccess ? 0 : 1;
         }
     }
 }

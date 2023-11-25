@@ -21,10 +21,10 @@ namespace TFLRoadStatus.Service
         public string? StatusSeverityDescription { get; set; }
 
         [JsonProperty("bounds")]
-        public double[,]? Bounds { get; set; }
+        public string? Bounds { get; set; }
 
         [JsonProperty("envelope")]
-        public double[,]? Envelope { get; set; }
+        public string? Envelope { get; set; }
 
         [JsonProperty("url")]
         public string? url { get; set; }

@@ -7,12 +7,12 @@ namespace TFLRoadStatus.Service
     public class TFLRoadStatusService : IRoadStatusService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IMapper<ValidRoadResponse, RoadStatusResult> _mapper;
+        private readonly IMapper<List<ValidRoadResponse>, RoadStatusResult> _mapper;
         private readonly IURIProvider _uriProvider;
 
         private const string ROADURLFORMAT = "road/{0}";
 
-        public TFLRoadStatusService(IHttpClientFactory httpClientFactory, IURIProvider uriProvider, IMapper<ValidRoadResponse, RoadStatusResult> mapper)
+        public TFLRoadStatusService(IHttpClientFactory httpClientFactory, IURIProvider uriProvider, IMapper<List<ValidRoadResponse>, RoadStatusResult> mapper)
         {
             _httpClientFactory = httpClientFactory;
             _mapper = mapper;
@@ -35,7 +35,7 @@ namespace TFLRoadStatus.Service
             {
                 var stringData = await result.Content.ReadAsStringAsync();
 
-                var deserialzedResult = JsonConvert.DeserializeObject<ValidRoadResponse>(stringData);
+                var deserialzedResult = JsonConvert.DeserializeObject<List<ValidRoadResponse>>(stringData);
 
                 var roadStatus = _mapper.Map(deserialzedResult);
 
